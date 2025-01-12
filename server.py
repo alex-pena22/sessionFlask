@@ -5,17 +5,20 @@ app.secret_key = 'ThisIsMyOwnSecretKey' # you need to set a secret key for secur
 
 @app.route('/')
 def index():
+  # Form is rendered to pass in data using the index template
   return render_template("index.html")
 
-@app.route('/users', methods=['POST'])
+@app.route('/formData', methods=['POST'])
 def create_user():
-  print (" --- Post data proccessed --- ")# here we add two properties to session to store the name and email
-  session['data'] = request.form
-  return redirect('/show') # noticed that we changed where we redirect to so that we can go to the page that displays the name and email!
+  #sess('KeyName') set to ( values ) 
+  session['data'] = request.form 
+  print (" --- Form Data Proccesed --- ")
+  return redirect('/show') # redirect to a different route(/show) to process the data.
 
 @app.route('/show')
+  #using the values stored on session we can render the data user template
 def show_user():
   userData = session['data']
-  return render_template('user.html',data=userData)
+  return render_template('user.html',data=userData)#set the data to value and pass the form data 
 
 app.run(debug=True)
